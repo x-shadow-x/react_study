@@ -1,0 +1,10 @@
+.user_icon_text,
+.user_icon {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.user_icon {
+	width: 28px;
+	margin-left: 10px;
+}

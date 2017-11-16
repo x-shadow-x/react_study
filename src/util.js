@@ -1,7 +1,9 @@
+
 /**
- * 工具函数
- * @return {[type]} [description]
+ * 工具函数文件
  */
+
+// 判断跳转地址函数
 export function getRedirectPath({type, avator}) {
 	console.log(type);
 	let url = (type === 'boss') ? '/boss' : 'guy';
