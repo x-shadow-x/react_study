@@ -1,7 +1,14 @@
 import React from 'react'
-import { NavBar, InputItem, TextareaItem } from 'antd-mobile'
+import { NavBar, InputItem, TextareaItem, Button } from 'antd-mobile'
+import { update } from '../../redux/user.redux.js'
+import { connect } from 'react-redux'
 import AvatarSelector from '../../component/avatar_selector/avatar_selector.js'
 
+
+@connect(
+	state => state.user,
+	{ update }
+)
 class BossInfo extends React.Component {
 	constructor(props) {
 		super(props);
@@ -33,6 +40,12 @@ class BossInfo extends React.Component {
 					autoHeight
 					onChange={(v) =>this.onChange('desc', v)}
 				>职位要求</TextareaItem>
+				<Button 
+					type="primary"
+					onClick={() => {
+						this.props.update(this.state)
+					}}
+				>保存</Button>
 			</div>
 		);
 	}
