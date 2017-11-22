@@ -1,0 +1,15 @@
+.am_tab_bar {
+	position: fixed;
+	border: 0;
+	width: 100%;
+}
+
+.am_navbar {
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+.page_content {
+	padding: 45px 5px;
+}

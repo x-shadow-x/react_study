@@ -42,9 +42,10 @@ function errorMsg(msg) {
 }
 
 function authSuccess(data) {
+	const {pwd, ...payload} = data;
 	return {
 		type: AUTH_SUCESS,
-		payload: data
+		payload: payload
 	}
 }
 
