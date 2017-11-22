@@ -106,4 +106,33 @@ Router.post('/login', function(req, res) {
 		});
 	});
 });
+
+Router.post('/update', function(req, res) {
+	const userid = req.cookies.userid;
+	if(!userid) {
+		return res.json({
+			code: 1
+		});
+	}
+
+	const body = req.body;
+	User.findByIdAndUpdate(userid, body, function(err, doc) {
+		if(err) {
+			return res.json({
+				code: 1,
+				msg: '后端错误'
+			});
+		}
+		const data = Object.assign({}, {
+			user: doc.user,
+			type: doc.type
+		}, body);
+
+		return res.json({
+			code: 0,
+			data: data
+		});
+	});
+});
+
 module.exports = Router
