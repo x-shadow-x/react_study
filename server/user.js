@@ -12,8 +12,13 @@ function handleErr(res, msg) {
 
 Router.get('/list', function(req, res) {
 	// User.remove({}, function(err, doc) {});
-	User.find({}, function(err, doc) {
-		return res.json(doc);
+	const { type } = req.query;
+	console.log(type);
+	User.find({ type }, function(err, doc) {
+		return res.json({
+			code: 0,
+			data: doc
+		});
 	})
 });
 
@@ -116,6 +121,7 @@ Router.post('/update', function(req, res) {
 	}
 
 	const body = req.body;
+	console.log(body, '-----------');
 	User.findByIdAndUpdate(userid, body, function(err, doc) {
 		if(err) {
 			return res.json({

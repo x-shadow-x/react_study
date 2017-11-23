@@ -17,7 +17,7 @@ class AvatarSelector extends React.Component {
 							.split(',')
 							.map((iconName) => {
 								return {
-									icon: require(`../imgs/${iconName}.png`),
+									icon: require(`./imgs/${iconName}.png`),
 									text: iconName
 								}
 							});

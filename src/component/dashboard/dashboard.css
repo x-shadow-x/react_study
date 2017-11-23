@@ -1,0 +1,15 @@
+.fixd_top {
+	position: fixed;
+	top: 0;
+	width: 100%;
+}
+
+.nav_link_bar {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+}
+
+.page_contain {
+	margin-top: 45px;
+}

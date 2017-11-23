@@ -8,7 +8,7 @@ const models = {
 		'user': {type: String, require: true},
 		'pwd': {type: String, require: true},
 		'type': {type: String, require: true},
-		'avator': {type: String},
+		'avatar': {type: String},
 		'desc': {type: String},
 		'title': {type: String},
 		'company': {type: String},

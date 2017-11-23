@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Switch, Route } from 'react-router-dom'
 import { NavBar } from 'antd-mobile'
+import NavLinkBar from '../nav_link_bar/nav_link_bar.js'
+import Boss from '../boss/boss.js'
 
-function Boss() {
-	return <h2>Boss首页</h2>
-}
+import './dashboard.css'
 
 function Guy() {
 	return <h2>求职首页</h2>
@@ -38,7 +39,7 @@ class Dashboard extends React.Component {
 			},{
 				path: '/guy',
 				text: 'boss',
-				icon: 'jpb',
+				icon: 'job',
 				title: 'boss list',
 				component: Guy,
 				hide: user.type === 'boss'
@@ -56,18 +57,28 @@ class Dashboard extends React.Component {
 				component: User
 			}
 		];
-		console.log(navList.find(v => {
-						v.path === pathname
-						console.log(v.path, '--------', pathname);
-					}));
+
 		return (
 			<div>
-				<NavBar mode='dard'>
-					{navList.find(v => {
-						return v.path == pathname;
-					}).title}
-				</NavBar>
-				<h2>footer</h2>
+				<div className="fixd_top">
+					<NavBar mode='dard'>
+						{navList.find(v => {
+							return v.path == pathname;
+						}).title}
+					</NavBar>
+				</div>
+				
+				<div className="page_contain">
+					<Switch>
+						{navList.map(v =>  {
+							return <Route key={v.path} path={v.path} component={v.component}></Route>
+						})}
+					</Switch>
+				</div>
+				<div className="nav_link_bar">
+					<NavLinkBar data={navList}>footer</NavLinkBar>
+				</div>
+				
 			</div>
 		);
 	}
