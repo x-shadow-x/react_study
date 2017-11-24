@@ -52,11 +52,11 @@ class Register extends React.Component {
 						<InputItem type="password" onChange={(v) => this.handleChange('repeatpwd', v)}>确认密码</InputItem>
 						<WhiteSpace />
 						<RadioItem 
-							checked={this.state.type=='boss'}
+							checked={this.state.type === 'boss'}
 							onChange={() => this.handleChange('type', 'boss')}
 						>BOSS</RadioItem>
 						<RadioItem 
-							checked={this.state.type=='guy'}
+							checked={this.state.type === 'guy'}
 							onChange={() => this.handleChange('type', 'guy')}
 						>应聘者</RadioItem>
 					</List>

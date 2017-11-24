@@ -8,10 +8,10 @@ import UserInfo from '../user_info/user_info.js'
 	state => state.chatuser,
 	{ getUserList }
 )
-class Boss extends React.Component {
+class Guy extends React.Component {
 
 	componentDidMount() {
-		this.props.getUserList('guy');
+		this.props.getUserList('boss');
 	}
 
 	render() {
@@ -19,4 +19,4 @@ class Boss extends React.Component {
 	}
 }
 
-export default Boss
+export default Guy

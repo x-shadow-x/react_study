@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List, Grid, WingBlank } from 'antd-mobile'
+import { List, Grid } from 'antd-mobile'
 import './avatar_selector.css'
 class AvatarSelector extends React.Component {
 

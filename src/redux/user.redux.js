@@ -4,6 +4,7 @@ import { getRedirectPath } from '../util.js';
 const AUTH_SUCESS = 'AUTH_SUCESS';
 const ERROR_MSG = 'ERROR_MSG';
 const LOAD_DATA = 'LOAD_DATA';
+const LOGOUT = 'LOGOUT';
 
 const initState = {
 	redirectTo: '',
@@ -29,6 +30,8 @@ export function user(state=initState, action) {
 			return {
 				...state, msg: action.msg, isAuth: false
 			}
+		case LOGOUT:
+			return {...initState, redirectTo: '/login'}
 		default: 
 			return state;
 	}
@@ -67,7 +70,7 @@ export function register({ user, pwd, repeatpwd, type }) {
 	return dispatch => {
 		console.log(user, pwd, type);
 		axios.post('/user/register', { user, pwd, type }).then(res => {
-			if(res.status == 200 && res.data.code == 0) {
+			if(res.status === 200 && res.data.code === 0) {
 				dispatch(authSuccess({ user, pwd, type }));
 			} else {
 				dispatch(errorMsg(res.data.msg));
@@ -84,7 +87,7 @@ export function login({ user, pwd }) {
 	return dispatch => {
 		console.log(user, pwd);
 		axios.post('/user/login', { user, pwd }).then(res => {
-			if(res.status == 200 && res.data.code == 0) {
+			if(res.status === 200 && res.data.code === 0) {
 				console.log(res.data.data);
 				dispatch(authSuccess(res.data.data));
 			} else {
@@ -98,11 +101,17 @@ export function update(data) {
 	return dispatch => {
 		console.log(data);
 		axios.post('/user/update', data).then(res => {
-			if(res.status == 200 && res.data.code == 0) {
+			if(res.status === 200 && res.data.code === 0) {
 				dispatch(authSuccess(res.data.data));
 			} else {
 				dispatch(errorMsg(res.data.msg));
 			}
 		});
+	}
+}
+
+export function logoutSubmit() {
+	return {
+		type: LOGOUT
 	}
 }

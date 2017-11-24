@@ -19,8 +19,8 @@ class AuthRoute extends React.Component {
 		}
 
 		axios.get('/user/info').then(res => {
-			if(res.status == 200) {
-				if(res.data.code == 0) {
+			if(res.status === 200) {
+				if(res.data.code === 0) {
 					// todo======有登录信息
 					// 调用user.redux中的loadData action create函数~将后端返回的用户信息整合进user.redux中的state中
 					// 然后和user.redux connect的login组件通过拿到user.redux的state~就相当于间接拿到了后端返回的数据
