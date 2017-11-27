@@ -14,7 +14,14 @@ const models = {
 		'company': {type: String},
 		'money': {type: String}
 	},
-	chat: {}
+	chat: {
+		'chat_id': {type: String, require: true},
+		'from': {type: String, require: true},
+		'to': {type: String, require: true},
+		'read': {type: Boolean, default: false},
+		'content': {type: String, require: true, default: ''},
+		'create_time': {type: Number, default:  new Date().getTime()},
+	}
 }
 
 // 相当于关系型数据库中创建表

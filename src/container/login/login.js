@@ -10,31 +10,23 @@ import {
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { login } from '../../redux/user.redux.js'
-
+import form from '../../component/form/form.js'
 
 @connect(
 	state => state.user,
 	{ login }
 )
+@form
 class Login extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			user: '',
-			pwd:''
-		}
+
 		this.jumpToRegister = this.jumpToRegister.bind(this);
 		this.handleLogin = this.handleLogin.bind(this);
 	}
 
-	handleChange(key, value) {
-		this.setState({
-			[key]: value
-		});
-	}
-
 	handleLogin() {
-		this.props.login(this.state);
+		this.props.login(this.props.state);
 	}
 
 	jumpToRegister() {
@@ -49,10 +41,10 @@ class Login extends React.Component {
 				<WingBlank>
 					<List>
 						{this.props.msg ? <p>{this.props.msg}</p> : ''}
-						<InputItem onChange={(v) => this.handleChange('user', v)}>用户</InputItem>
+						<InputItem onChange={(v) => this.props.handleChange('user', v)}>用户</InputItem>
 						<InputItem 
 							type="password"
-							onChange={(v) => this.handleChange('pwd', v)}
+							onChange={(v) => this.props.handleChange('pwd', v)}
 						>密码</InputItem>
 					</List>
 					<WhiteSpace />

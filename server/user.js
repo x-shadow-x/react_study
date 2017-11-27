@@ -3,6 +3,7 @@ const utility = require('utility');
 const Router = express.Router();
 const model = require('./model.js');
 const User = model.getModel('user'); // 获取user模型
+const Chat = model.getModel('chat');
 
 const _filter = {pwd: 0, __v: 0}; // 返回数据给前端的时候有些字段不希望显示~统一定义一个变量过滤
 
@@ -13,7 +14,6 @@ function handleErr(res, msg) {
 Router.get('/list', function(req, res) {
 	// User.remove({}, function(err, doc) {});
 	const { type } = req.query;
-	console.log(type);
 	User.find({ type }, function(err, doc) {
 		return res.json({
 			code: 0,
@@ -45,6 +45,25 @@ Router.get('/info', function(req, res) {
 		}
 	});
 	
+});
+
+Router.get('/getMsgList', function(req, res) {
+	const user = req.cookies.user;
+	Chat.find({'$or':[{
+		from: user,
+		to: user
+	}]}, function(err, doc) {
+		if(err) {
+			return res.json({
+				code: 1,
+				msg: '后端出错'
+			});
+		}
+		return res.json({
+			code: 0,
+			msgs: doc
+		});
+	});
 });
 
 Router.post('/register', function(req, res) {
@@ -121,7 +140,6 @@ Router.post('/update', function(req, res) {
 	}
 
 	const body = req.body;
-	console.log(body, '-----------');
 	User.findByIdAndUpdate(userid, body, function(err, doc) {
 		if(err) {
 			return res.json({

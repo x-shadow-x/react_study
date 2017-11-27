@@ -1,3 +1,6 @@
+/**
+ * 管理用户列表（boss列表， guy列表）的redux
+ */
 import axios from 'axios'
 const USER_LIST = 'USER_LIST'
 
