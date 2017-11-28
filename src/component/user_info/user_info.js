@@ -15,7 +15,7 @@ class UserInfo extends React.Component {
 
 	handleClick(v) {
 		console.log(this.props.history);
-		this.props.history.push(`/chat/${v.user}`);
+		this.props.history.push(`/chat/${v._id}`);
 	}
 
 	render() {

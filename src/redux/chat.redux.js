@@ -22,8 +22,9 @@ export function chat(state=initState, action) {
 	switch(action.type) {
 		case MSG_LIST:
 			return {...state, chatMsg: action.payload, unRead: action.payload.filter(v => !v.read ).length}
-		// case: MSG_RECV:
-		// case: MSG_READ:
+		case MSG_RECV:
+			return {...state, chatMsg: [...state.chatMsg, action.payload]}
+		// case MSG_READ:
 		default:
 			return state;
 
@@ -37,6 +38,13 @@ function msgList(msgs) {
 	}
 }
 
+function msgRecv(msg) {
+	return {
+		type: MSG_RECV,
+		payload: msg
+	}
+}
+
 export function getMsgList() {
 	return dispatch => {
 		axios.get('/user/getMsgList').then(res => {
@@ -44,5 +52,20 @@ export function getMsgList() {
 				dispatch(msgList(res.data.msgs));
 			}
 		});
+	}
+}
+
+export function sendMsg(orignal, to, text) {
+	return dispatch => {
+		socket.emit('sendmsg', { orignal, to, text });
+	}
+}
+
+export function recvMsg() {
+	return dispatch => {
+		socket.on('recvmsg', function(data) {
+			console.log('recvmsg', data);
+			dispatch(msgRecv(data))
+		})
 	}
 }

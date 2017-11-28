@@ -5,6 +5,8 @@ const userRouter = require('./user.js');
 const app = new Express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const model = require('./model');
+const Chat = model.getModel('chat');
 
 
 // 注意使用这两个中间件的语句要写在app.use('/user', userRouter);之前~不然在user.js文件中express不具备bodyParser的功能
@@ -17,8 +19,20 @@ app.use('/user', userRouter);
 io.on('connection', function(socket) {
 	console.log('user login');
 	socket.on('sendmsg', function(data) {
-		console.log(data);
-		io.emit('recvmsg', data);
+		const { orignal, to, text } = data;
+		const chatId = [orignal, to].sort().join('_');
+		console.log(chatId);
+		console.log([orignal, to].sort());
+		Chat.create({orignal, to, content: text, chat_id: chatId}, function(err, doc) {
+			if(err) {
+				return res.json({
+					code: 1,
+					msg: '后端出错'
+				});
+			}
+
+			io.emit('recvmsg', Object.assign({}, doc._doc));
+		});
 	})
 });
 
