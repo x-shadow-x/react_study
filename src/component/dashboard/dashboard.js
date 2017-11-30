@@ -6,6 +6,7 @@ import NavLinkBar from '../nav_link_bar/nav_link_bar.js'
 import Boss from '../boss/boss.js'
 import Guy from '../guy/guy.js'
 import User from '../user/user.js'
+import { getMsgList, recvMsg } from '../../redux/chat.redux.js'
 
 import './dashboard.css'
 
@@ -14,9 +15,20 @@ function Msg() {
 }
 
 @connect(
-	state => state
+	state => state,
+	{ getMsgList, recvMsg }
 )
 class Dashboard extends React.Component {
+
+	componentDidMount() {
+		if(!this.props.chat.chatMsg.length) {
+			// 这里做一个判断逻辑~如果不加判断~每次加载dashboard页面都通过一个异步的action去后台要数据~
+			// 否则每次action都将被累积~直到按发送~后台返回数据的时候触发前端在异步action中监听的recvmsg~
+			// 此时所有积累的action都会dispatch导致发送的信息被重复追加到消息列表末尾~具体看chat.redux.js中的recvMsg action函数
+			this.props.getMsgList();
+			this.props.recvMsg();
+		}
+	}
 
 	render() {
 

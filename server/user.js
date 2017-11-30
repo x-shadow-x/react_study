@@ -4,6 +4,7 @@ const Router = express.Router();
 const model = require('./model.js');
 const User = model.getModel('user'); // 获取user模型
 const Chat = model.getModel('chat');
+const fs = require('fs');
 
 const _filter = {pwd: 0, __v: 0}; // 返回数据给前端的时候有些字段不希望显示~统一定义一个变量过滤
 
@@ -46,13 +47,34 @@ Router.get('/info', function(req, res) {
 	});
 	
 });
-
+// Chat.remove({}, function(err, doc) {});
 Router.get('/getMsgList', function(req, res) {
-	const user = req.cookies.user;
-	Chat.find({'$or':[{
-		from: user,
-		to: user
-	}]}, function(err, doc) {
+	const user = req.cookies.userid;
+	let usersInfo = {};
+	
+	User.find({}, function(err, doc) {
+		if(!err) {
+			
+			doc.forEach(v => {
+				usersInfo[v._id] = {
+					name: v.user,
+					avatar: v.avatar
+				};
+			});
+		}
+	})
+
+	let emojiList = [];
+	fs.readdir(process.cwd() + '/imgs/emoji/', function(err, files) {
+		if(!err) {
+			emojiList = files;
+		}
+	})
+
+	Chat.find({'$or': [
+			{from: user},
+			{to: user}
+		]}, function(err, doc) {
 		if(err) {
 			return res.json({
 				code: 1,
@@ -61,7 +83,9 @@ Router.get('/getMsgList', function(req, res) {
 		}
 		return res.json({
 			code: 0,
-			msgs: doc
+			msgs: doc,
+			usersInfo: usersInfo,
+			emojiList: emojiList
 		});
 	});
 });

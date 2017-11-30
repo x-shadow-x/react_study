@@ -17,20 +17,14 @@ app.use(bodyParser.json());
 app.use('/user', userRouter);
 
 io.on('connection', function(socket) {
-	console.log('user login');
 	socket.on('sendmsg', function(data) {
 		const { orignal, to, text } = data;
 		const chatId = [orignal, to].sort().join('_');
-		console.log(chatId);
-		console.log([orignal, to].sort());
-		Chat.create({orignal, to, content: text, chat_id: chatId}, function(err, doc) {
-			if(err) {
-				return res.json({
-					code: 1,
-					msg: '后端出错'
-				});
-			}
 
+		Chat.create({to, from: orignal, content: text, chat_id: chatId}, function(err, doc) {
+			if(err) {
+				console.log(err, '===============');
+			}
 			io.emit('recvmsg', Object.assign({}, doc._doc));
 		});
 	})

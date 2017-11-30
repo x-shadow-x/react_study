@@ -1,16 +1,20 @@
-#chat-page .chat-me .am-list-extra {
-	flex-basis: auto;
-}
-
-#chat-page .chat-me .am-list-content {
-	padding-right: 15px;
-	text-align: right;
-}
-
 .stick_footer {
 	position: absolute;
 	left: 0;
 	right: 0;
 	bottom: 0;
 	z-index: 10;
+}
+
+.page_content {
+	padding: 45px 5px;
+}
+
+#chatPage .chat_me .am-list-extra {
+	flex-basis: auto;
+}
+
+#chatPage .chat_me .am-list-content {
+	padding-right: 15px;
+	text-align: right;
 }
