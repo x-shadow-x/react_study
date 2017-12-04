@@ -1,0 +1,11 @@
+.emoji_btn {
+	display: inline-block;
+	width: 24px;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+.send_btn {
+	display: inline-block;
+	vertical-align: middle;
+}

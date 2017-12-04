@@ -1,9 +1,10 @@
 import React from 'react'
-import { List, InputItem, NavBar, Icon } from 'antd-mobile'
+import { List, InputItem, NavBar, Icon, Grid } from 'antd-mobile'
 import { connect } from 'react-redux'
 import { getMsgList, sendMsg, recvMsg } from '../../redux/chat.redux.js'
-import io from 'socket.io-client'
 import { getChatId } from '../../util.js';
+import './chat.css'
+import io from 'socket.io-client'
 const socket = io('ws://localhost:9093');
 
 
@@ -16,7 +17,8 @@ class Chat extends React.Component {
 		super(props);
 		this.state = {
 			text: '',
-			msg: []
+			msg: [],
+			showEmoji: false
 		}
 	}
 
@@ -25,6 +27,12 @@ class Chat extends React.Component {
 			this.props.getMsgList();
 			this.props.recvMsg();
 		}
+	}
+
+	fixCarousel() {
+		setTimeout(() => {
+			window.dispatchEvent(new Event('resize'))
+		}, 0);
 	}
 	
 	handleSubmit() {
@@ -41,7 +49,11 @@ class Chat extends React.Component {
 		const chatMsg = this.props.chat.chatMsg.filter(v => {
 			return v.chat_id === getChatId(userId, this.props.user._id);
 		});
-		const emoji = '';
+		const emoji = this.props.chat.emojiList.map((v) => {
+			return {
+				icon: require(`./imgs/emoji/${v}`)
+			}
+		});
 		if(!usersInfo[userId]) {
 			return null;
 		}
@@ -85,12 +97,34 @@ class Chat extends React.Component {
 								});
 							}}
 							extra={
-								<span onClick={() => {
-									this.handleSubmit();
-								}}>发送</span>
+								<div>
+									<img
+										src={require('./imgs/emoji/face-savouring-delicious-food_1f60b.png')}
+										alt="emoji_btn" className="emoji_btn"
+										onClick={() => {
+											this.setState({
+												showEmoji: !this.state.showEmoji
+											});
+											this.fixCarousel();
+										}} />
+									<span onClick={() => this.handleSubmit()} className="send_btn">发送</span>
+								</div>
 							}
 						></InputItem>
 					</List>
+					{this.state.showEmoji ? 
+						<Grid
+							data={emoji}
+							columnNum={7}
+							carouselMaxRow={3}
+							isCarousel={true}
+							onClick={el => {
+								this.setState({
+									text: this.state.text + '<span>123</span>'
+								});
+								console.log(el);
+							}}
+						></Grid> : null}
 				</div>
 			</div>
 		);
