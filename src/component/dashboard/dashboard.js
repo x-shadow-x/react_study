@@ -7,12 +7,9 @@ import Boss from '../boss/boss.js'
 import Guy from '../guy/guy.js'
 import User from '../user/user.js'
 import { getMsgList, recvMsg } from '../../redux/chat.redux.js'
+import Msg from '../msg/msg.js'
 
 import './dashboard.css'
-
-function Msg() {
-	return <h2>消息首页</h2>
-}
 
 @connect(
 	state => state,

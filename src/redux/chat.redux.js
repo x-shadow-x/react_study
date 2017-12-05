@@ -45,7 +45,7 @@ export function chat(state=initState, action) {
 }
 
 function msgList(msgs, usersInfo, userId, emojiList) {
-	console.log(msgs, usersInfo, emojiList);
+	console.log(usersInfo, '-------======------------');
 	return {
 		type: MSG_LIST,
 		payload: {msgs, usersInfo, userId, emojiList}

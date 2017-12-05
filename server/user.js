@@ -67,7 +67,6 @@ Router.get('/getMsgList', function(req, res) {
 	let emojiList = [];
 	fs.readdir(process.cwd() + '/imgs/emoji/', function(err, files) {
 		if(!err) {
-			console.log(process.cwd() + '/imgs/emoji/');
 			emojiList = files;
 		}
 	})

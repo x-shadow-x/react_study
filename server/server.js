@@ -21,7 +21,7 @@ io.on('connection', function(socket) {
 		const { orignal, to, text } = data;
 		const chatId = [orignal, to].sort().join('_');
 
-		Chat.create({to, from: orignal, content: text, chat_id: chatId}, function(err, doc) {
+		Chat.create({to, from: orignal, content: text, chat_id: chatId, create_time: new Date().getTime()}, function(err, doc) {
 			if(err) {
 				console.log(err, '===============');
 			}
