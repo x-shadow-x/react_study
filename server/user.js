@@ -183,4 +183,23 @@ Router.post('/update', function(req, res) {
 	});
 });
 
+Router.post('/readMsg', function(req, res) {
+	const userid = req.cookies.userid;
+	const {oriangl} = req.body;
+	Chat.update({from: oriangl, to: userid}, {'$set': {read: true}}, {'multi': true}, function(err, doc) {
+		if(err) {
+			return res.json({
+				code: 1,
+				msg: '后端错误'
+			});
+		}
+
+		return res.json({
+			code: 0,
+			num: doc.nModified
+		});
+	});
+	console.log(userid, oriangl, '--------========----------');
+})
+
 module.exports = Router

@@ -24,10 +24,10 @@ class Msg extends React.Component {
 		const chatList = Object.values(msgGroup).sort((v1, v2) => {
 			const lastV1 = this.getLast(v1);
 			const lastV2 = this.getLast(v2);
-			
+
 			return lastV2.create_time - lastV1.create_time;
 		});
-		console.log(chatList, '---------------chat');
+
 		return (
 			<div>
 				
@@ -43,6 +43,10 @@ class Msg extends React.Component {
 								<List.Item
 									extra={<Badge text={unreadNum}></Badge>}
 									thumb={usersInfo[targetId] && require(`../avatar_selector/imgs/${usersInfo[targetId].avatar}.png`)}
+									arrow="horizontal"
+									onClick={() => {
+										this.props.history.push(`/chat/${targetId}`)
+									}}
 								>
 									{lastItem.content}
 									<List.Item.Brief>{usersInfo[targetId] && usersInfo[targetId].name || ''}</List.Item.Brief>

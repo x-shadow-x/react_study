@@ -18,13 +18,16 @@ app.use('/user', userRouter);
 
 io.on('connection', function(socket) {
 	socket.on('sendmsg', function(data) {
+		console.log(data, '==========data');
 		const { orignal, to, text } = data;
+		console.log(orignal, '===', to, '-------------id');
 		const chatId = [orignal, to].sort().join('_');
 
 		Chat.create({to, from: orignal, content: text, chat_id: chatId, create_time: new Date().getTime()}, function(err, doc) {
 			if(err) {
 				console.log(err, '===============');
 			}
+			console.log(doc._doc, '------------------recvmsg');
 			io.emit('recvmsg', Object.assign({}, doc._doc));
 		});
 	})

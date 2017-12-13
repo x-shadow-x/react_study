@@ -1,7 +1,7 @@
 import React from 'react'
 import { List, InputItem, NavBar, Icon, Grid } from 'antd-mobile'
 import { connect } from 'react-redux'
-import { getMsgList, sendMsg, recvMsg } from '../../redux/chat.redux.js'
+import { getMsgList, sendMsg, recvMsg, readMsg } from '../../redux/chat.redux.js'
 import { getChatId } from '../../util.js';
 import './chat.css'
 import io from 'socket.io-client'
@@ -10,7 +10,7 @@ const socket = io('ws://localhost:9093');
 
 @connect(
 	state => state,
-	{ getMsgList, sendMsg, recvMsg }
+	{ getMsgList, sendMsg, recvMsg, readMsg }
 )
 class Chat extends React.Component {
 	constructor(props) {
@@ -29,6 +29,12 @@ class Chat extends React.Component {
 		}
 	}
 
+	componentWillUnmount() {
+		//离开当前路由组件就会unmount
+		const to = this.props.match.params.user;
+		this.props.readMsg(to);
+	}
+
 	fixCarousel() {
 		setTimeout(() => {
 			window.dispatchEvent(new Event('resize'))
@@ -39,6 +45,7 @@ class Chat extends React.Component {
 		const orignal = this.props.user._id;
 		const to = this.props.match.params.user;
 		const text = this.state.text;
+
 		this.props.sendMsg({ orignal, to, text });
 		this.setState({ text: '' });
 	}
@@ -122,7 +129,6 @@ class Chat extends React.Component {
 								this.setState({
 									text: this.state.text + '<span>123</span>'
 								});
-								console.log(el);
 							}}
 						></Grid> : null}
 				</div>
